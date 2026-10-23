@@ -4,6 +4,7 @@ import { createRootRouteWithContext, HeadContent, Scripts } from '@tanstack/reac
 
 import { TanStackQueryDevtools } from '@/integrations/tanstack-query/devtools';
 import { TanStackRouterDevtools } from '@/integrations/tanstack-router/devtools';
+import { ThemeProvider } from '@/integrations/theme/provider';
 
 import appCss from '../styles.css?url';
 
@@ -37,12 +38,14 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
     return (
-        <html lang='en'>
+        <html lang='en' suppressHydrationWarning>
             <head>
                 <HeadContent />
             </head>
             <body>
-                {children}
+                <ThemeProvider defaultTheme='light' storageKey='theme'>
+                    {children}
+                </ThemeProvider>
                 <TanStackDevtools
                     config={{
                         position: 'bottom-right',
