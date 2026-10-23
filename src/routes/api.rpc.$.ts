@@ -1,10 +1,10 @@
-import '#/polyfill';
+import '@/polyfill';
 
 import { createFileRoute } from '@tanstack/react-router';
 
 import { RPCHandler } from '@orpc/server/fetch';
 
-import router from '#/orpc/router';
+import router from '@/orpc/router';
 
 const handler = new RPCHandler(router);
 
