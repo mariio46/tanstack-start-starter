@@ -1,81 +1,81 @@
 {
-	"workbench.editorAssociations": {
-		"*.svg": "default"
-		// "*.svg": "imagePreview.previewEditor"
-	},
-	"files.watcherExclude": {
-		"**/routeTree.gen.ts": true
-	},
-	"search.exclude": {
-		"**/routeTree.gen.ts": true
-	},
-	"files.readonlyInclude": {
-		"**/routeTree.gen.ts": true
-	},
-	"[javascript]": {
-		"editor.defaultFormatter": "biomejs.biome",
-		"editor.formatOnSave": true,
-		"editor.codeActionsOnSave": {
-			"source.organizeImports.biome": "explicit",
-			"source.fixAll.biome": "explicit",
-			"source.biome": "explicit"
-		}
-	},
-	"[javascriptreact]": {
-		"editor.defaultFormatter": "biomejs.biome",
-		"editor.formatOnSave": true,
-		"editor.codeActionsOnSave": {
-			"source.organizeImports.biome": "explicit",
-			"source.fixAll.biome": "explicit",
-			"source.biome": "explicit"
-		}
-	},
-	"[typescript]": {
-		"editor.defaultFormatter": "biomejs.biome",
-		"editor.formatOnSave": true,
-		"editor.codeActionsOnSave": {
-			"source.organizeImports.biome": "explicit",
-			"source.fixAll.biome": "explicit",
-			"source.biome": "explicit"
-		}
-	},
-	"[typescriptreact]": {
-		"editor.defaultFormatter": "biomejs.biome",
-		"editor.formatOnSave": true,
-		"editor.codeActionsOnSave": {
-			"source.organizeImports.biome": "explicit",
-			"source.fixAll.biome": "explicit",
-			"source.biome": "explicit"
-		}
-	},
-	"[json]": {
-		"editor.defaultFormatter": "biomejs.biome",
-		"editor.formatOnSave": true,
-		"editor.codeActionsOnSave": {
-			"source.organizeImports.biome": "explicit",
-			"source.fixAll.biome": "explicit",
-			"source.biome": "explicit"
-		}
-	},
-	"[jsonc]": {
-		"editor.defaultFormatter": "biomejs.biome",
-		"editor.formatOnSave": true,
-		"editor.codeActionsOnSave": {
-			"source.organizeImports.biome": "explicit",
-			"source.fixAll.biome": "explicit",
-			"source.biome": "explicit"
-		}
-	},
-	"[css]": {
-		"editor.defaultFormatter": "biomejs.biome",
-		"editor.formatOnSave": true,
-		"editor.codeActionsOnSave": {
-			"source.organizeImports.biome": "explicit",
-			"source.fixAll.biome": "explicit",
-			"source.biome": "explicit"
-		}
-	},
-	"editor.codeActionsOnSave": {
-		"source.organizeImports.biome": "explicit"
-	}
+    "workbench.editorAssociations": {
+        "*.svg": "default"
+        // "*.svg": "imagePreview.previewEditor"
+    },
+    "files.watcherExclude": {
+        "**/routeTree.gen.ts": true
+    },
+    "search.exclude": {
+        "**/routeTree.gen.ts": true
+    },
+    "files.readonlyInclude": {
+        "**/routeTree.gen.ts": true
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "biomejs.biome",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports.biome": "explicit",
+            "source.fixAll.biome": "explicit",
+            "source.biome": "explicit"
+        }
+    },
+    "[javascriptreact]": {
+        "editor.defaultFormatter": "biomejs.biome",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports.biome": "explicit",
+            "source.fixAll.biome": "explicit",
+            "source.biome": "explicit"
+        }
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "biomejs.biome",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports.biome": "explicit",
+            "source.fixAll.biome": "explicit",
+            "source.biome": "explicit"
+        }
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "biomejs.biome",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports.biome": "explicit",
+            "source.fixAll.biome": "explicit",
+            "source.biome": "explicit"
+        }
+    },
+    "[json]": {
+        "editor.defaultFormatter": "biomejs.biome",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports.biome": "explicit",
+            "source.fixAll.biome": "explicit",
+            "source.biome": "explicit"
+        }
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "biomejs.biome",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports.biome": "explicit",
+            "source.fixAll.biome": "explicit",
+            "source.biome": "explicit"
+        }
+    },
+    "[css]": {
+        "editor.defaultFormatter": "biomejs.biome",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports.biome": "explicit",
+            "source.fixAll.biome": "explicit",
+            "source.biome": "explicit"
+        }
+    },
+    "editor.codeActionsOnSave": {
+        "source.organizeImports.biome": "explicit"
+    }
 }
