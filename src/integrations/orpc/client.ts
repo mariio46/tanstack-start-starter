@@ -7,7 +7,7 @@ import type { RouterClient } from '@orpc/server';
 import { createRouterClient } from '@orpc/server';
 import { createTanstackQueryUtils } from '@orpc/tanstack-query';
 
-import router from '@/integrations/orpc/router';
+import { router } from '@/router/index';
 
 const getORPCClient = createIsomorphicFn()
     .server(() =>

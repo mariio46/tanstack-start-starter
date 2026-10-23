@@ -8,8 +8,7 @@ import { OpenAPIReferencePlugin } from '@orpc/openapi/plugins';
 import { onError } from '@orpc/server';
 import { ZodToJsonSchemaConverter } from '@orpc/zod/zod4';
 
-import router from '@/integrations/orpc/router';
-import { TodoSchema } from '@/integrations/orpc/schema';
+import { router } from '@/router/index';
 
 const handler = new OpenAPIHandler(router, {
     interceptors: [
@@ -27,10 +26,6 @@ const handler = new OpenAPIHandler(router, {
                 info: {
                     title: 'TanStack ORPC Playground',
                     version: '1.0.0',
-                },
-                commonSchemas: {
-                    Todo: { schema: TodoSchema },
-                    UndefinedError: { error: 'UndefinedError' },
                 },
                 security: [{ bearerAuth: [] }],
                 components: {
