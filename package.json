@@ -2,17 +2,17 @@
   "name": "tanstack-start-starter",
   "private": true,
   "type": "module",
-  "imports": {
-    "#/*": "./src/*"
-  },
   "scripts": {
-    "dev": "vite dev --port 3000",
+    "dev": "vite dev --port 3111",
     "generate-routes": "tsr generate",
     "build": "vite build",
-    "preview": "vite preview",
+    "start": "PORT=3111 node .output/server/index.mjs",
     "format": "biome format",
     "lint": "biome lint",
-    "check": "biome check"
+    "check": "biome check",
+    "validate": "biome check --write --unsafe",
+    "validate:full": "biome check --write --unsafe && tsc --noEmit",
+    "preview": "vite build && vite preview --port 3111"
   },
   "dependencies": {
     "@faker-js/faker": "^10.3.0",
