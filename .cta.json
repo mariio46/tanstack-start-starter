@@ -1,0 +1,27 @@
+{
+  "bundler": "vite",
+  "projectName": "tanstack-start-starter",
+  "mode": "file-router",
+  "typescript": true,
+  "packageManager": "pnpm",
+  "includeExamples": false,
+  "tailwind": true,
+  "projectPreset": "default",
+  "routerOnly": false,
+  "addOnOptions": {},
+  "git": true,
+  "install": true,
+  "intent": true,
+  "version": 1,
+  "framework": "react",
+  "chosenAddOns": [
+    "biome",
+    "nitro",
+    "compiler",
+    "form",
+    "oRPC",
+    "t3env",
+    "table",
+    "tanstack-query"
+  ]
+}
