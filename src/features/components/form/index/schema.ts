@@ -4,7 +4,7 @@ import { validateFiles } from '@/lib/file';
 
 import { defaultRichTextPayload, richTextSchema } from '@/schemas/rich-text.schema';
 
-import { ATTACHMENT_CONSTRAINTS, LEAVE_DATES_MAX, RICH_TEXT_CONSTRAINTS } from './constants';
+import { ATTACHMENT_CONSTRAINTS, LEAVE_DATES_MAX, PHOTO_CONSTRAINTS, RICH_TEXT_CONSTRAINTS } from './constants';
 
 const textFieldsSchema = z.object({
     name: z.string().trim().min(1, 'Nama wajib diisi.'),
@@ -76,7 +76,14 @@ const fileFieldsSchema = z.object({
 
         if (message) ctx.addIssue({ code: 'custom', message });
     }),
-    photo: z.array(z.instanceof(File)).min(1, 'Unggah satu foto.'),
+    photo: z
+        .array(z.instanceof(File))
+        .min(1, 'Unggah satu foto.')
+        .superRefine((files, ctx) => {
+            const message = validateFiles(files, PHOTO_CONSTRAINTS);
+
+            if (message) ctx.addIssue({ code: 'custom', message });
+        }),
 });
 
 type FileFieldsPayload = z.input<typeof fileFieldsSchema>;

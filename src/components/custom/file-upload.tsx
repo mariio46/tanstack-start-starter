@@ -98,6 +98,7 @@ const MIN_ZOOM = 1;
 const MAX_ZOOM = 3;
 const DEFAULT_ZOOM = 1;
 const EDITABLE_IMAGE_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
+const SKIP_REASON_FORMAT = new Intl.ListFormat('id', { type: 'conjunction' });
 
 function createFileId() {
     if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
@@ -515,6 +516,7 @@ function FileUploadRoot({
     const internalFilesRef = React.useRef<FileUploadValue>([]);
     const itemCacheRef = React.useRef<Map<string, FileUploadItem>>(new Map());
     const itemsRef = React.useRef<FileUploadItem[]>([]);
+    const mountedRef = React.useRef(false);
 
     const files = isControlled ? (value ?? []) : internalFiles;
     const accept = React.useMemo(() => buildAccept(mimes), [mimes]);
@@ -522,7 +524,13 @@ function FileUploadRoot({
     const items = React.useMemo(() => {
         const nextSignatures = new Set<string>();
         const nextItems: FileUploadItem[] = files.map((file) => {
-            const signature = getFileSignature(file);
+            const baseSignature = getFileSignature(file);
+            let signature = baseSignature;
+            let occurrence = 0;
+            while (nextSignatures.has(signature)) {
+                occurrence += 1;
+                signature = `${baseSignature}:${occurrence}`;
+            }
             nextSignatures.add(signature);
 
             const cached = itemCacheRef.current.get(signature);
@@ -629,10 +637,19 @@ function FileUploadRoot({
     }, [internalFiles]);
 
     React.useEffect(() => {
+        mountedRef.current = true;
+
         return () => {
-            cleanupPreviewUrl();
-            disposeFileUploadItems(itemsRef.current);
-            itemCacheRef.current.clear();
+            mountedRef.current = false;
+            queueMicrotask(() => {
+                if (mountedRef.current) {
+                    return;
+                }
+
+                cleanupPreviewUrl();
+                disposeFileUploadItems(itemsRef.current);
+                itemCacheRef.current.clear();
+            });
         };
     }, [cleanupPreviewUrl]);
 
@@ -730,33 +747,34 @@ function FileUploadRoot({
     ]);
 
     React.useEffect(() => {
-        if (!isEditing) {
+        if (!isEditing || confirmOpen) {
             return;
         }
 
         function onKeyDown(event: KeyboardEvent) {
-            if (event.key === 'Escape') {
-                event.preventDefault();
-                if (confirmOpen) {
-                    setConfirmOpen(false);
-                    return;
-                }
-
-                if (!isBusy) {
-                    closeEditor();
-                }
+            if (
+                event.key !== 'Enter' ||
+                event.defaultPrevented ||
+                event.isComposing ||
+                event.shiftKey ||
+                event.metaKey ||
+                event.ctrlKey ||
+                event.altKey
+            ) {
+                return;
             }
 
-            if (event.key === 'Enter' && !event.shiftKey && !event.metaKey && !event.ctrlKey && !event.altKey) {
-                const target = event.target;
-                if (target instanceof HTMLTextAreaElement) {
-                    return;
-                }
+            const target = event.target;
+            if (
+                target instanceof HTMLTextAreaElement ||
+                (target instanceof Element && target.closest('button, [role="switch"]'))
+            ) {
+                return;
+            }
 
-                if (!isBusy && !previewLoading && previewUrl && !editorError) {
-                    event.preventDefault();
-                    setConfirmOpen(true);
-                }
+            if (!isBusy && !previewLoading && previewUrl && !editorError) {
+                event.preventDefault();
+                setConfirmOpen(true);
             }
         }
 
@@ -764,7 +782,7 @@ function FileUploadRoot({
         return () => {
             window.removeEventListener('keydown', onKeyDown);
         };
-    }, [closeEditor, confirmOpen, editorError, isBusy, isEditing, previewLoading, previewUrl]);
+    }, [confirmOpen, editorError, isBusy, isEditing, previewLoading, previewUrl]);
 
     const resetInput = React.useCallback(() => {
         if (inputRef.current) {
@@ -918,40 +936,25 @@ function FileUploadRoot({
             setCallbackError(null);
 
             const validByMime = nextSelectedFiles.filter((file) => isAllowedByMimes(file, mimes));
-            const invalidByMime = nextSelectedFiles.filter((file) => !isAllowedByMimes(file, mimes));
+            const knownSignatures = new Set(multiple ? files.map(getFileSignature) : []);
+            const unique = validByMime.filter((file) => {
+                const signature = getFileSignature(file);
+                if (multiple && knownSignatures.has(signature)) return false;
+                knownSignatures.add(signature);
+                return true;
+            });
+            const accepted = unique.slice(0, multiple ? Math.max(0, max - files.length) : 1);
 
-            const current = files;
-            let next: FileUploadValue = current;
-            let accepted: FileUploadValue = [];
-            let skippedCount = 0;
-
-            if (!validByMime.length) {
-                if (invalidByMime.length) {
-                    setCallbackError('Beberapa file dilewati karena format tidak sesuai.');
-                }
-                return;
+            const reasons: string[] = [];
+            if (validByMime.length < nextSelectedFiles.length) reasons.push('format tidak sesuai');
+            if (unique.length < validByMime.length) reasons.push('sudah ditambahkan');
+            if (accepted.length < unique.length) reasons.push('melebihi batas jumlah file');
+            if (reasons.length) {
+                setCallbackError(`Beberapa file dilewati karena ${SKIP_REASON_FORMAT.format(reasons)}.`);
             }
 
-            if (multiple) {
-                const remaining = Math.max(0, max - current.length);
-                accepted = validByMime.slice(0, remaining);
-                skippedCount = validByMime.length - accepted.length;
-                next = accepted.length ? [...current, ...accepted] : current;
-            } else {
-                accepted = validByMime.slice(0, 1);
-                skippedCount = validByMime.length - accepted.length;
-                next = accepted.length ? accepted : current;
-            }
-
-            const errors: string[] = [];
-            if (invalidByMime.length) errors.push('format tidak sesuai');
-            if (skippedCount > 0) errors.push('melebihi batas jumlah file');
-            if (errors.length) {
-                setCallbackError(`Beberapa file dilewati karena ${errors.join(' dan ')}.`);
-            }
-
-            if (next !== current) {
-                emitChange(next);
+            if (accepted.length) {
+                emitChange(multiple ? [...files, ...accepted] : accepted);
             }
         },
         [emitChange, files, max, mimes, multiple],
@@ -1428,7 +1431,7 @@ function FileUploadEditorDialog() {
     const isEditing = activeEditingIndex !== null;
 
     return (
-        <Dialog open={isEditing} onOpenChange={(open) => !open && !isBusy && closeEditor()}>
+        <Dialog open={isEditing} onOpenChange={(open) => !open && !isBusy && !confirmOpen && closeEditor()}>
             <DialogContent className='sm:max-w-6xl' showCloseButton={!isBusy}>
                 <DialogHeader>
                     <DialogTitle>Edit Gambar</DialogTitle>

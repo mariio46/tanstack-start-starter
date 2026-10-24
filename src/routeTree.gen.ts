@@ -14,6 +14,7 @@ import { Route as ComponentsRouteRouteImport } from './routes/components/route'
 import { Route as ApiSplatRouteImport } from './routes/api.$'
 import { Route as ComponentsIndexRouteImport } from './routes/components/index'
 import { Route as ComponentsDataTableRouteImport } from './routes/components/data-table'
+import { Route as ComponentsFileUploadRouteImport } from './routes/components/file-upload'
 import { Route as ComponentsFormRouteImport } from './routes/components/form'
 import { Route as ComponentsRichTextEditorRouteImport } from './routes/components/rich-text-editor'
 import { Route as ApiRpcSplatRouteImport } from './routes/api.rpc.$'
@@ -43,6 +44,11 @@ const ComponentsDataTableRoute = ComponentsDataTableRouteImport.update({
   path: '/data-table',
   getParentRoute: () => ComponentsRouteRoute,
 } as any)
+const ComponentsFileUploadRoute = ComponentsFileUploadRouteImport.update({
+  id: '/file-upload',
+  path: '/file-upload',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
 const ComponentsFormRoute = ComponentsFormRouteImport.update({
   id: '/form',
   path: '/form',
@@ -65,6 +71,7 @@ export interface FileRoutesByFullPath {
   '/components': typeof ComponentsRouteRouteWithChildren
   '/api/$': typeof ApiSplatRoute
   '/components/data-table': typeof ComponentsDataTableRoute
+  '/components/file-upload': typeof ComponentsFileUploadRoute
   '/components/form': typeof ComponentsFormRoute
   '/components/rich-text-editor': typeof ComponentsRichTextEditorRoute
   '/components/': typeof ComponentsIndexRoute
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/api/$': typeof ApiSplatRoute
   '/components/data-table': typeof ComponentsDataTableRoute
+  '/components/file-upload': typeof ComponentsFileUploadRoute
   '/components/form': typeof ComponentsFormRoute
   '/components/rich-text-editor': typeof ComponentsRichTextEditorRoute
   '/components': typeof ComponentsIndexRoute
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/components': typeof ComponentsRouteRouteWithChildren
   '/api/$': typeof ApiSplatRoute
   '/components/data-table': typeof ComponentsDataTableRoute
+  '/components/file-upload': typeof ComponentsFileUploadRoute
   '/components/form': typeof ComponentsFormRoute
   '/components/rich-text-editor': typeof ComponentsRichTextEditorRoute
   '/components/': typeof ComponentsIndexRoute
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/components'
     | '/api/$'
     | '/components/data-table'
+    | '/components/file-upload'
     | '/components/form'
     | '/components/rich-text-editor'
     | '/components/'
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/api/$'
     | '/components/data-table'
+    | '/components/file-upload'
     | '/components/form'
     | '/components/rich-text-editor'
     | '/components'
@@ -116,6 +127,7 @@ export interface FileRouteTypes {
     | '/components'
     | '/api/$'
     | '/components/data-table'
+    | '/components/file-upload'
     | '/components/form'
     | '/components/rich-text-editor'
     | '/components/'
@@ -166,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsDataTableRouteImport
       parentRoute: typeof ComponentsRouteRoute
     }
+    '/components/file-upload': {
+      id: '/components/file-upload'
+      path: '/file-upload'
+      fullPath: '/components/file-upload'
+      preLoaderRoute: typeof ComponentsFileUploadRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
     '/components/form': {
       id: '/components/form'
       path: '/form'
@@ -192,6 +211,7 @@ declare module '@tanstack/react-router' {
 
 interface ComponentsRouteRouteChildren {
   ComponentsDataTableRoute: typeof ComponentsDataTableRoute
+  ComponentsFileUploadRoute: typeof ComponentsFileUploadRoute
   ComponentsFormRoute: typeof ComponentsFormRoute
   ComponentsRichTextEditorRoute: typeof ComponentsRichTextEditorRoute
   ComponentsIndexRoute: typeof ComponentsIndexRoute
@@ -199,6 +219,7 @@ interface ComponentsRouteRouteChildren {
 
 const ComponentsRouteRouteChildren: ComponentsRouteRouteChildren = {
   ComponentsDataTableRoute: ComponentsDataTableRoute,
+  ComponentsFileUploadRoute: ComponentsFileUploadRoute,
   ComponentsFormRoute: ComponentsFormRoute,
   ComponentsRichTextEditorRoute: ComponentsRichTextEditorRoute,
   ComponentsIndexRoute: ComponentsIndexRoute,

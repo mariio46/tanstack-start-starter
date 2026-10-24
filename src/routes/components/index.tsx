@@ -27,6 +27,12 @@ const COMPONENTS: ComponentCard[] = [
             'Sorting, pagination, pencarian, faceted filter, rentang tanggal, row selection, dan virtualisasi.',
     },
     {
+        to: '/components/file-upload',
+        title: 'File Upload',
+        description:
+            'Dropzone dengan batas format, jumlah, dan ukuran, ikon per tipe file, layout composable, serta editor crop dan resize gambar.',
+    },
+    {
         to: '/components/form',
         title: 'Form',
         description:

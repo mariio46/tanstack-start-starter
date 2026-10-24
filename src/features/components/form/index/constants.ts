@@ -88,6 +88,11 @@ const PHOTO_MIMES = ['image/png', 'image/jpeg'];
 
 const PHOTO_MAX_SIZE = 1 * MB;
 
+const PHOTO_CONSTRAINTS = {
+    accept: PHOTO_MIMES.join(','),
+    maxSize: PHOTO_MAX_SIZE,
+};
+
 const BIRTH_DATE_MIN = new Date(1960, 0, 1);
 
 const BIRTH_DATE_MAX = new Date(2008, 11, 31);
@@ -114,6 +119,7 @@ export {
     MANAGER_OPTIONS,
     NOTIFICATION_OPTIONS,
     PERMISSION_GROUPS,
+    PHOTO_CONSTRAINTS,
     PHOTO_MAX_SIZE,
     PHOTO_MIMES,
     RICH_TEXT_CONSTRAINTS,

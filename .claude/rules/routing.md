@@ -32,6 +32,7 @@ File-based routing in `src/routes/**`: flat dot-separated names at the top level
 | `components/route.tsx` | `/components` | Layout of the preview pages: `AppNavbar` + `max-w-5xl` container |
 | `components/index.tsx` | `/components/` | List of preview pages |
 | `components/data-table.tsx` | `/components/data-table` | TanStack Table preview (see `features.md`) |
+| `components/file-upload.tsx` | `/components/file-upload` | `FileUpload` preview (see `features.md`) |
 | `components/form.tsx` | `/components/form` | TanStack Form preview (see `features.md`) |
 | `components/rich-text-editor.tsx` | `/components/rich-text-editor` | Lexical rich text editor preview, `ssr: false` (see `features.md`) |
 | `api.$.ts` | `/api/$` | oRPC OpenAPI handler — REST surface, docs and spec (see `server.md`) |
