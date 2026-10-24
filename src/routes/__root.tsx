@@ -1,10 +1,14 @@
 import { TanStackDevtools } from '@tanstack/react-devtools';
 import { createRootRouteWithContext, HeadContent, Scripts } from '@tanstack/react-router';
 
+import { TanStackFormDevtools } from '@/integrations/tanstack-form/devtools';
 import type { AppRouterContext } from '@/integrations/tanstack-query/context';
 import { TanStackQueryDevtools } from '@/integrations/tanstack-query/devtools';
 import { TanStackRouterDevtools } from '@/integrations/tanstack-router/devtools';
+import { TanStackTableDevtools } from '@/integrations/tanstack-table/devtools';
 import { ThemeProvider } from '@/integrations/theme/provider';
+
+import { FormBlockerAlertDialog } from '@/components/custom/form-blocker';
 
 import appCss from '../styles.css?url';
 
@@ -41,12 +45,18 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             <body>
                 <ThemeProvider defaultTheme='light' storageKey='theme'>
                     {children}
+                    <FormBlockerAlertDialog />
                 </ThemeProvider>
                 <TanStackDevtools
                     config={{
                         position: 'bottom-right',
                     }}
-                    plugins={[TanStackRouterDevtools, TanStackQueryDevtools]}
+                    plugins={[
+                        TanStackRouterDevtools,
+                        TanStackQueryDevtools,
+                        TanStackFormDevtools,
+                        TanStackTableDevtools,
+                    ]}
                 />
                 <Scripts />
             </body>

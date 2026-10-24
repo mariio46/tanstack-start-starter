@@ -82,7 +82,7 @@ Strictly one-directional — schemas → services → procedures → clients →
 | Service | `src/services/<name>.server.ts` | Server-only business logic: database, external APIs, secrets (read at call time) | Know about oRPC, HTTP or React; be imported from client-reachable code |
 | Procedure | `src/router/<resource>.ts`, registered in `src/router/index.ts` | `.input()`/`.output()` schemas, `.route({ method, path })`, oRPC middleware, call services, throw `ORPCError` | Hold business logic beyond orchestration |
 | Client | `src/clients/<resource>.client.ts`, barrel `src/clients/index.ts` | `queryOptions`/`mutationOptions` built from `orpc.<resource>.*`, plus the resource's `keys` | Write query keys by hand, `fetch` directly |
-| Route / component | `src/routes/**`, `src/components/**` | `ensureQueryData`, `useSuspenseQuery`, `useQuery`, `useMutation` | Import services or `@/router/*` |
+| Route / component | `src/routes/**`, `src/features/**`, `src/components/**` | `ensureQueryData`, `useSuspenseQuery`, `useQuery`, `useMutation` | Import services or `@/router/*` |
 
 - `src/actions/<name>.functions.ts` sits beside the procedures for app-only server work (see Server primitives). Actions call services; they never re-implement a procedure.
 - Query keys come from oRPC (`orpc.<resource>.key()`, `.queryKey({ input })`) — never literals.
@@ -166,9 +166,10 @@ Everything that describes how one area works today lives in a path-scoped file u
 | `routing.md` | Vite plugin order and Start entries, `getRouter()` and router options, the root route and SSR shell, the route table, route-tree generation and the `generate-routes` caveat |
 | `server.md` | The oRPC router and procedures, both transports, the isomorphic client, procedure context, errors, server functions, server routes, middleware and `src/start.ts` |
 | `data-fetching.md` | `QueryClient` and SSR hydration, `src/clients/` (call convention, query keys, mutations), route wiring, adding a resource |
-| `integrations.md` | `env.ts` and environment variables, the theme provider, devtools, TanStack Query/Router helpers |
-| `components.md` | `src/components/ui/**` (shadcn `base-nova` on Base UI) and Tailwind v4 styling |
+| `integrations.md` | `env.ts` and environment variables, the theme provider, devtools, TanStack Query/Router helpers, the TanStack Table hook (`useAppTable`) and TanStack Form hook (`useAppForm`) |
+| `components.md` | `src/components/ui/**` (shadcn `base-nova` on Base UI), the ported `data-table/`, `coss-ui/`, `reui/` and `custom/` components, and Tailwind v4 styling |
 | `lib-hooks.md` | `src/lib/**` helpers and `src/hooks/**` |
+| `features.md` | `src/features/**` page UI, including the `/components/*` preview pages for TanStack Table and Form |
 
 **Keeping them current.** When a change makes a description stale, update the rules file of that area — and its `paths` frontmatter when files move or a new folder belongs to it. A new area gets its own file and a row in this table. Edit `CLAUDE.md` only when a rule in this file changes; do not add descriptions of the current state of the code here.
 

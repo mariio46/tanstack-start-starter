@@ -1,0 +1,84 @@
+import { Field as FieldPrimitive } from '@base-ui/react/field';
+
+import { cn } from '@/lib/utils';
+
+import { Separator } from '@/components/ui/separator';
+
+export function Field({ className, ...props }: FieldPrimitive.Root.Props): React.ReactElement {
+    return (
+        <FieldPrimitive.Root
+            className={cn('flex flex-col items-start gap-2', className)}
+            data-slot='field'
+            {...props}
+        />
+    );
+}
+
+export function FieldLabel({ className, ...props }: FieldPrimitive.Label.Props): React.ReactElement {
+    return (
+        <FieldPrimitive.Label
+            className={cn(
+                'inline-flex items-center gap-2 font-medium text-foreground data-disabled:opacity-64 text-sm/4',
+                className,
+            )}
+            data-slot='field-label'
+            {...props}
+        />
+    );
+}
+
+export function FieldItem({ className, ...props }: FieldPrimitive.Item.Props): React.ReactElement {
+    return <FieldPrimitive.Item className={cn('flex', className)} data-slot='field-item' {...props} />;
+}
+
+export function FieldDescription({ className, ...props }: FieldPrimitive.Description.Props): React.ReactElement {
+    return (
+        <FieldPrimitive.Description
+            className={cn('text-muted-foreground text-xs', className)}
+            data-slot='field-description'
+            {...props}
+        />
+    );
+}
+
+export function FieldError({ className, ...props }: FieldPrimitive.Error.Props): React.ReactElement {
+    return (
+        <FieldPrimitive.Error
+            className={cn('text-destructive text-xs', className)}
+            data-slot='field-error'
+            {...props}
+        />
+    );
+}
+
+export function FieldSeparator({
+    children,
+    className,
+    ...props
+}: React.ComponentProps<'div'> & {
+    children?: React.ReactNode;
+}) {
+    return (
+        <div
+            data-slot='field-separator'
+            data-content={!!children}
+            className={cn('relative -my-2 h-5 text-sm group-data-[variant=outline]/field-group:-mb-2', className)}
+            {...props}
+        >
+            <Separator className='absolute inset-0 top-1/2' />
+            {children && (
+                <span
+                    className='relative mx-auto block w-fit bg-background px-2 text-muted-foreground'
+                    data-slot='field-separator-content'
+                >
+                    {children}
+                </span>
+            )}
+        </div>
+    );
+}
+
+export const FieldControl: typeof FieldPrimitive.Control = FieldPrimitive.Control;
+export const FieldValidity: typeof FieldPrimitive.Validity = FieldPrimitive.Validity;
+
+export { FieldPrimitive };

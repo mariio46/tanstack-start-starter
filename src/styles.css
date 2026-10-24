@@ -6,6 +6,8 @@
 @import "@fontsource-variable/geist";
 @import "@fontsource-variable/outfit";
 
+@plugin "@tailwindcss/typography";
+
 @custom-variant dark (&:is(.dark *));
 
 * {
@@ -55,6 +57,14 @@ body {
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --info: var(--color-blue-500);
+  --info-foreground: var(--color-blue-700);
+  --success: var(--color-emerald-500);
+  --success-foreground: var(--color-emerald-700);
+  --warning: var(--color-amber-500);
+  --warning-foreground: var(--color-amber-700);
+  --invert: var(--color-zinc-900);
+  --invert-foreground: var(--color-zinc-50);
 }
 
 .dark {
@@ -89,6 +99,14 @@ body {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --info: var(--color-blue-500);
+  --info-foreground: var(--color-blue-400);
+  --success: var(--color-emerald-500);
+  --success-foreground: var(--color-emerald-400);
+  --warning: var(--color-amber-500);
+  --warning-foreground: var(--color-amber-400);
+  --invert: var(--color-zinc-700);
+  --invert-foreground: var(--color-zinc-50);
 }
 
 @theme inline {
@@ -132,6 +150,14 @@ body {
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-invert: var(--invert);
+  --color-invert-foreground: var(--invert-foreground);
 }
 
 @layer base {
@@ -147,4 +173,106 @@ body {
   html {
     @apply font-sans;
   }
+}
+
+@layer components {
+    .markdown-editor {
+        @apply flex flex-col overflow-hidden rounded-lg border border-input bg-transparent transition-colors dark:bg-input/30;
+    }
+
+    .markdown-editor:focus-within {
+        @apply border-ring ring-3 ring-ring/50;
+    }
+
+    .markdown-editor[aria-invalid='true'] {
+        @apply border-destructive ring-3 ring-destructive/20 dark:border-destructive/50 dark:ring-destructive/40;
+    }
+
+    .markdown-editor[data-disabled='true'] {
+        @apply opacity-50;
+    }
+
+    .markdown-editor__toolbar {
+        @apply flex flex-wrap items-center gap-1 border-b bg-muted/50 p-1.5;
+    }
+
+    .markdown-editor__viewport {
+        @apply min-h-0;
+    }
+
+    .markdown-editor__content {
+        min-height: var(--markdown-editor-min-height, 24rem);
+        @apply max-w-none px-3 py-2.5;
+    }
+
+    .markdown-editor__content:focus {
+        outline: none;
+    }
+
+    :is(.markdown-editor__content, .markdown-viewer__content) > :first-child {
+        @apply mt-0;
+    }
+
+    :is(.markdown-editor__content, .markdown-viewer__content) > :last-child {
+        @apply mb-0;
+    }
+
+    :is(.markdown-editor__content, .markdown-viewer__content) .is-editor-empty:first-child::before,
+    :is(.markdown-editor__content, .markdown-viewer__content) p.is-editor-empty::before {
+        content: attr(data-placeholder);
+        @apply pointer-events-none float-left h-0 text-muted-foreground;
+    }
+
+    :is(.markdown-editor__content, .markdown-viewer__content) .tiptap-mathematics-render {
+        @apply inline-flex items-center rounded-md bg-muted/60 px-1.5 py-0.5;
+    }
+
+    :is(.markdown-editor__content, .markdown-viewer__content) .tiptap-mathematics-render--editable {
+        @apply cursor-text;
+    }
+
+    :is(.markdown-editor__content, .markdown-viewer__content) .tiptap-mathematics-render .katex-display {
+        @apply my-0;
+    }
+
+    :is(.markdown-editor__content, .markdown-viewer__content) [data-type='block-math'] {
+        @apply my-4 overflow-x-auto rounded-lg border bg-muted/40 px-4 py-3;
+    }
+
+    :is(.markdown-editor__content, .markdown-viewer__content) img {
+        @apply my-4 max-h-96 rounded-lg border border-border object-contain;
+    }
+
+    :is(.markdown-editor__content, .markdown-viewer__content) blockquote {
+        @apply my-4 border-s-4 border-border ps-4 italic;
+    }
+
+    :is(.markdown-editor__content, .markdown-viewer__content) pre {
+        @apply my-4 overflow-x-auto rounded-lg border bg-neutral-950 p-4 text-neutral-50 dark:bg-neutral-900;
+    }
+
+    :is(.markdown-editor__content, .markdown-viewer__content) pre code {
+        @apply bg-transparent p-0 text-inherit;
+    }
+
+    :is(.markdown-editor__content, .markdown-viewer__content) table {
+        @apply my-4 w-full border-collapse overflow-hidden rounded-lg text-sm;
+    }
+
+    :is(.markdown-editor__content, .markdown-viewer__content) :is(th, td) {
+        @apply border border-border px-3 py-2 align-top;
+    }
+
+    :is(.markdown-editor__content, .markdown-viewer__content) th {
+        @apply bg-muted text-left font-semibold;
+    }
+
+    :is(.markdown-editor__content, .markdown-viewer__content) [data-youtube-video] {
+        @apply my-4 overflow-hidden rounded-lg border;
+    }
+
+    :is(.markdown-editor__content, .markdown-viewer__content) [data-youtube-video] iframe,
+    :is(.markdown-editor__content, .markdown-viewer__content) .markdown-youtube-frame {
+        @apply aspect-video w-full;
+    }
 }

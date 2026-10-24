@@ -24,13 +24,19 @@ paths:
 
 ## Routes
 
-File-based routing in `src/routes/**`, currently with flat dot-separated names; nested directories and `(group)` folders work too.
+File-based routing in `src/routes/**`: flat dot-separated names at the top level, a nested directory for `components/`; `(group)` folders work too.
 
 | File | Path | What |
 | --- | --- | --- |
 | `index.tsx` | `/` | Placeholder home page |
+| `components/route.tsx` | `/components` | Layout of the preview pages: `AppNavbar` + `max-w-5xl` container |
+| `components/index.tsx` | `/components/` | List of preview pages |
+| `components/data-table.tsx` | `/components/data-table` | TanStack Table preview (see `features.md`) |
+| `components/form.tsx` | `/components/form` | TanStack Form preview (see `features.md`) |
 | `api.$.ts` | `/api/$` | oRPC OpenAPI handler — REST surface, docs and spec (see `server.md`) |
 | `api.rpc.$.ts` | `/api/rpc/$` | oRPC RPC handler — what the browser client talks to (see `server.md`) |
+
+- **Breadcrumbs**: a route sets `staticData: { breadcrumb: 'Label' }` (typed by the `StaticDataRouteOption` augmentation in `src/integrations/tanstack-router/tanstack-react-router.ts`); `RouteBreadcrumb` lists every match that has one.
 
 Routes that own their data wire it through a loader as described in `data-fetching.md`.
 
