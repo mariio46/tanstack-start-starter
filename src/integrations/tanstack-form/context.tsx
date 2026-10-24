@@ -15,8 +15,8 @@ import {
     InputGroup,
     InputNumber,
     InputPassword,
-    MarkdownEditor,
     RadioCards,
+    RichTextEditor,
     Textarea,
 } from './fields';
 import { AlertError, SubmitButton } from './forms';
@@ -34,7 +34,7 @@ export const { useAppForm, withFieldGroup, withForm } = createFormHook({
         Combobox,
         ComboboxMultiple,
         Textarea,
-        MarkdownEditor,
+        RichTextEditor,
         InputDate,
         InputDateTime,
         InputDateMultiple,

@@ -30,7 +30,13 @@ const COMPONENTS: ComponentCard[] = [
         to: '/components/form',
         title: 'Form',
         description:
-            'Semua field component TanStack Form: teks, pilihan, tanggal, file, markdown, validasi, dan form blocker.',
+            'Semua field component TanStack Form: teks, pilihan, tanggal, file, rich text, validasi, dan form blocker.',
+    },
+    {
+        to: '/components/rich-text-editor',
+        title: 'Rich Text Editor',
+        description:
+            'Editor Lexical dengan toolbar, slash command, tabel, gambar, mention, serta import dan export Markdown/HTML.',
     },
 ];
 

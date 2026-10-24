@@ -2,7 +2,9 @@ import * as z from 'zod';
 
 import { validateFiles } from '@/lib/file';
 
-import { ATTACHMENT_CONSTRAINTS, LEAVE_DATES_MAX } from './constants';
+import { defaultRichTextPayload, richTextSchema } from '@/schemas/rich-text.schema';
+
+import { ATTACHMENT_CONSTRAINTS, LEAVE_DATES_MAX, RICH_TEXT_CONSTRAINTS } from './constants';
 
 const textFieldsSchema = z.object({
     name: z.string().trim().min(1, 'Nama wajib diisi.'),
@@ -84,11 +86,15 @@ const fileFieldsDefaultValues: FileFieldsPayload = {
     photo: [],
 };
 
-const markdownFieldSchema = z.object({
-    content: z.string().trim().min(20, 'Konten minimal 20 karakter.'),
+const richTextFieldSchema = z.object({
+    content: richTextSchema(RICH_TEXT_CONSTRAINTS),
 });
 
-type MarkdownFieldPayload = z.input<typeof markdownFieldSchema>;
+type RichTextFieldPayload = z.input<typeof richTextFieldSchema>;
+
+const richTextFieldDefaultValues: RichTextFieldPayload = {
+    content: defaultRichTextPayload,
+};
 
 const validationSchema = z.object({
     name: z.string().trim().min(1, 'Nama wajib diisi.'),
@@ -149,7 +155,7 @@ export type {
     CompositionPayload,
     DateFieldsPayload,
     FileFieldsPayload,
-    MarkdownFieldPayload,
+    RichTextFieldPayload,
     TextFieldsPayload,
     ValidationPayload,
 };
@@ -165,7 +171,8 @@ export {
     dateFieldsSchema,
     fileFieldsDefaultValues,
     fileFieldsSchema,
-    markdownFieldSchema,
+    richTextFieldDefaultValues,
+    richTextFieldSchema,
     textFieldsDefaultValues,
     textFieldsSchema,
     validationDefaultValues,

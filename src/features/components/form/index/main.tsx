@@ -6,7 +6,7 @@ import { CompositionForm } from './composition';
 import { TAKEN_EMAIL } from './constants';
 import { DateFieldsForm } from './date-fields';
 import { FileFieldsForm } from './file-fields';
-import { MarkdownFieldForm } from './markdown-field';
+import { RichTextFieldForm } from './rich-text-field';
 import { TextFieldsForm } from './text-fields';
 import { ValidationForm } from './validation';
 
@@ -45,10 +45,10 @@ const FormMain = () => {
             </ExampleSection>
 
             <ExampleSection
-                title='Markdown'
-                description='field.MarkdownEditor (TipTap, di-lazy-load) menyimpan nilai sebagai string markdown; hasil submit dirender ulang dengan MarkdownViewer.'
+                title='Rich text'
+                description='field.RichTextEditor (Lexical, hanya dirender di browser dan di-lazy-load) menyimpan nilai sebagai Lexical JSON string. richTextSchema mewajibkan isi dan membatasinya 500 karakter, dihitung sama dengan penghitung karakter editor.'
             >
-                <MarkdownFieldForm />
+                <RichTextFieldForm />
             </ExampleSection>
 
             <ExampleSection

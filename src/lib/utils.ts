@@ -1,5 +1,9 @@
 export { cn } from 'cn';
 
+export function pending(delay: number = 2000) {
+    return new Promise((resolve) => setTimeout(resolve, delay));
+}
+
 export function fallback<T, R = T>(value: T, render?: (value: NonNullable<T>) => R, empty: string = '—') {
     if (value === '' || value === null || value === undefined) return empty;
 

@@ -98,13 +98,10 @@ const LEAVE_DATES_MAX = 5;
 
 const TAKEN_EMAIL = 'ayu@contoh.id';
 
-const MARKDOWN_SAMPLE = `## Pengumuman
-
-Mulai **1 November**, absensi wajib memakai aplikasi mobile.
-
-- Unduh aplikasi dari portal internal
-- Login memakai email kantor
-`;
+const RICH_TEXT_CONSTRAINTS = {
+    required: true,
+    maxLength: 500,
+};
 
 export {
     ASYNC_STATUSES,
@@ -115,11 +112,11 @@ export {
     EMPLOYMENT_TYPE_OPTIONS,
     LEAVE_DATES_MAX,
     MANAGER_OPTIONS,
-    MARKDOWN_SAMPLE,
     NOTIFICATION_OPTIONS,
     PERMISSION_GROUPS,
     PHOTO_MAX_SIZE,
     PHOTO_MIMES,
+    RICH_TEXT_CONSTRAINTS,
     SCHEDULE_DATE_MIN,
     SKILL_OPTIONS,
     TAKEN_EMAIL,

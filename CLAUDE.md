@@ -167,9 +167,9 @@ Everything that describes how one area works today lives in a path-scoped file u
 | `server.md` | The oRPC router and procedures, both transports, the isomorphic client, procedure context, errors, server functions, server routes, middleware and `src/start.ts` |
 | `data-fetching.md` | `QueryClient` and SSR hydration, `src/clients/` (call convention, query keys, mutations), route wiring, adding a resource |
 | `integrations.md` | `env.ts` and environment variables, the theme provider, devtools, TanStack Query/Router helpers, the TanStack Table hook (`useAppTable`) and TanStack Form hook (`useAppForm`) |
-| `components.md` | `src/components/ui/**` (shadcn `base-nova` on Base UI), the ported `data-table/`, `coss-ui/`, `reui/` and `custom/` components, and Tailwind v4 styling |
-| `lib-hooks.md` | `src/lib/**` helpers and `src/hooks/**` |
-| `features.md` | `src/features/**` page UI, including the `/components/*` preview pages for TanStack Table and Form |
+| `components.md` | `src/components/ui/**` (shadcn `base-nova` on Base UI), the Lexical rich text editor (`rich-text-editor/`, client-only), the ported `data-table/`, `coss-ui/`, `reui/` and `custom/` components, and Tailwind v4 styling |
+| `lib-hooks.md` | `src/lib/**` helpers (including the rich text value helpers) and `src/hooks/**` |
+| `features.md` | `src/features/**` page UI, including the `/components/*` preview pages for TanStack Table, Form and the rich text editor |
 
 **Keeping them current.** When a change makes a description stale, update the rules file of that area — and its `paths` frontmatter when files move or a new folder belongs to it. A new area gets its own file and a row in this table. Edit `CLAUDE.md` only when a rule in this file changes; do not add descriptions of the current state of the code here.
 

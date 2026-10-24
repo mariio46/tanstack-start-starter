@@ -15,6 +15,7 @@ import { Route as ApiSplatRouteImport } from './routes/api.$'
 import { Route as ComponentsIndexRouteImport } from './routes/components/index'
 import { Route as ComponentsDataTableRouteImport } from './routes/components/data-table'
 import { Route as ComponentsFormRouteImport } from './routes/components/form'
+import { Route as ComponentsRichTextEditorRouteImport } from './routes/components/rich-text-editor'
 import { Route as ApiRpcSplatRouteImport } from './routes/api.rpc.$'
 
 const IndexRoute = IndexRouteImport.update({
@@ -47,6 +48,12 @@ const ComponentsFormRoute = ComponentsFormRouteImport.update({
   path: '/form',
   getParentRoute: () => ComponentsRouteRoute,
 } as any)
+const ComponentsRichTextEditorRoute =
+  ComponentsRichTextEditorRouteImport.update({
+    id: '/rich-text-editor',
+    path: '/rich-text-editor',
+    getParentRoute: () => ComponentsRouteRoute,
+  } as any)
 const ApiRpcSplatRoute = ApiRpcSplatRouteImport.update({
   id: '/api/rpc/$',
   path: '/api/rpc/$',
@@ -59,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/api/$': typeof ApiSplatRoute
   '/components/data-table': typeof ComponentsDataTableRoute
   '/components/form': typeof ComponentsFormRoute
+  '/components/rich-text-editor': typeof ComponentsRichTextEditorRoute
   '/components/': typeof ComponentsIndexRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
 }
@@ -67,6 +75,7 @@ export interface FileRoutesByTo {
   '/api/$': typeof ApiSplatRoute
   '/components/data-table': typeof ComponentsDataTableRoute
   '/components/form': typeof ComponentsFormRoute
+  '/components/rich-text-editor': typeof ComponentsRichTextEditorRoute
   '/components': typeof ComponentsIndexRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
 }
@@ -77,6 +86,7 @@ export interface FileRoutesById {
   '/api/$': typeof ApiSplatRoute
   '/components/data-table': typeof ComponentsDataTableRoute
   '/components/form': typeof ComponentsFormRoute
+  '/components/rich-text-editor': typeof ComponentsRichTextEditorRoute
   '/components/': typeof ComponentsIndexRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
 }
@@ -88,6 +98,7 @@ export interface FileRouteTypes {
     | '/api/$'
     | '/components/data-table'
     | '/components/form'
+    | '/components/rich-text-editor'
     | '/components/'
     | '/api/rpc/$'
   fileRoutesByTo: FileRoutesByTo
@@ -96,6 +107,7 @@ export interface FileRouteTypes {
     | '/api/$'
     | '/components/data-table'
     | '/components/form'
+    | '/components/rich-text-editor'
     | '/components'
     | '/api/rpc/$'
   id:
@@ -105,6 +117,7 @@ export interface FileRouteTypes {
     | '/api/$'
     | '/components/data-table'
     | '/components/form'
+    | '/components/rich-text-editor'
     | '/components/'
     | '/api/rpc/$'
   fileRoutesById: FileRoutesById
@@ -160,6 +173,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsFormRouteImport
       parentRoute: typeof ComponentsRouteRoute
     }
+    '/components/rich-text-editor': {
+      id: '/components/rich-text-editor'
+      path: '/rich-text-editor'
+      fullPath: '/components/rich-text-editor'
+      preLoaderRoute: typeof ComponentsRichTextEditorRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
     '/api/rpc/$': {
       id: '/api/rpc/$'
       path: '/api/rpc/$'
@@ -173,12 +193,14 @@ declare module '@tanstack/react-router' {
 interface ComponentsRouteRouteChildren {
   ComponentsDataTableRoute: typeof ComponentsDataTableRoute
   ComponentsFormRoute: typeof ComponentsFormRoute
+  ComponentsRichTextEditorRoute: typeof ComponentsRichTextEditorRoute
   ComponentsIndexRoute: typeof ComponentsIndexRoute
 }
 
 const ComponentsRouteRouteChildren: ComponentsRouteRouteChildren = {
   ComponentsDataTableRoute: ComponentsDataTableRoute,
   ComponentsFormRoute: ComponentsFormRoute,
+  ComponentsRichTextEditorRoute: ComponentsRichTextEditorRoute,
   ComponentsIndexRoute: ComponentsIndexRoute,
 }
 

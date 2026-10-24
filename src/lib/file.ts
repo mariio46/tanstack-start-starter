@@ -329,9 +329,31 @@ function validateFiles(files: readonly File[], constraints: FileConstraints = {}
     return null;
 }
 
+function readFileAsDataUrl(file: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.addEventListener('load', () => resolve(reader.result as string));
+        reader.addEventListener('error', () => reject(reader.error ?? new Error('Gagal membaca file.')));
+        reader.readAsDataURL(file);
+    });
+}
+
+function downloadFile(content: BlobPart, fileName: string, type: string) {
+    const url = URL.createObjectURL(new Blob([content], { type }));
+    const anchor = document.createElement('a');
+
+    anchor.href = url;
+    anchor.download = fileName;
+    anchor.click();
+
+    URL.revokeObjectURL(url);
+}
+
 export type { FileConstraints, FileKind, FileLike, FileRejection, FileRejectionReason };
 export {
     describeAccept,
+    downloadFile,
     FILE_KINDS,
     formatFileSize,
     formatFileType,
@@ -341,5 +363,6 @@ export {
     isImageFile,
     matchesAccept,
     pickFiles,
+    readFileAsDataUrl,
     validateFiles,
 };

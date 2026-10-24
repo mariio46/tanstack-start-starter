@@ -5,6 +5,8 @@ import { formOptions } from '@tanstack/react-form';
 import { useAppForm } from '@/integrations/tanstack-form/context';
 import { toFormErrorMap } from '@/integrations/tanstack-form/utils';
 
+import { pending } from '@/lib/utils';
+
 import { type JsonValue, JsonViewer } from '@/components/custom/json-viewer';
 import { Form } from '@/components/ui/form';
 
@@ -21,17 +23,13 @@ const validationFormOptions = formOptions({
     defaultValues: validationDefaultValues,
 });
 
-function wait(delay: number) {
-    return new Promise((resolve) => setTimeout(resolve, delay));
-}
-
 const ValidationForm = () => {
     const [submitted, setSubmitted] = React.useState<JsonValue>();
 
     const form = useAppForm({
         ...validationFormOptions,
         onSubmit: async ({ value, formApi }) => {
-            await wait(SERVER_DELAY);
+            await pending(SERVER_DELAY);
 
             if (value.email === TAKEN_EMAIL) {
                 formApi.setErrorMap({

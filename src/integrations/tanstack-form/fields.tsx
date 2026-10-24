@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import type { QueryStatus } from '@tanstack/react-query';
+import { ClientOnly } from '@tanstack/react-router';
 
 import {
     IconBroadcastOff,
@@ -19,8 +20,8 @@ import { cn, formatDate, toDateValue } from '@/lib/utils';
 import { CheckboxGroup } from '@/components/coss-ui/checkbox-group';
 import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/coss-ui/field';
 import { FileUpload as CustomFileUpload, type FileUploadProps } from '@/components/custom/file-upload';
-import type { MarkdownEditorProps } from '@/components/custom/markdown-editor/markdown-editor';
 import { IconTile } from '@/components/reui/icon-tile';
+import type { RichTextEditorProps } from '@/components/rich-text-editor/rich-text-editor';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -60,9 +61,9 @@ import { Textarea as ShadcnTextarea } from '@/components/ui/textarea';
 
 import { useFieldContext } from './context';
 
-const LazyMarkdownEditor = React.lazy(() =>
-    import('@/components/custom/markdown-editor/markdown-editor').then((module) => ({
-        default: module.MarkdownEditor,
+const LazyRichTextEditor = React.lazy(() =>
+    import('@/components/rich-text-editor/rich-text-editor').then((module) => ({
+        default: module.RichTextEditor,
     })),
 );
 
@@ -123,35 +124,51 @@ const Textarea = ({
     );
 };
 
-const MarkdownEditor = ({
+const RichTextEditor = ({
     label,
     disabled,
-    placeholder,
-    minHeight,
-}: Pick<MarkdownEditorProps, 'disabled' | 'placeholder' | 'minHeight'> & { label: React.ReactNode }) => {
+    className,
+    ...props
+}: Omit<RichTextEditorProps, 'value' | 'defaultValue' | 'onValueChange' | 'name'> & {
+    label: React.ReactNode;
+}) => {
     const field = useFieldContext<string>();
+    const labelId = React.useId();
+    const errorId = React.useId();
+
+    const invalid = !field.state.meta.isValid;
+    const fallback = <Skeleton className={cn('h-80 w-full rounded-lg', className)} />;
 
     return (
         <Field
             name={field.name}
-            invalid={!field.state.meta.isValid}
+            invalid={invalid}
             dirty={field.state.meta.isDirty}
             touched={field.state.meta.isTouched}
             disabled={disabled}
+            className='min-w-0 items-stretch'
         >
-            <FieldLabel>{label}</FieldLabel>
-            <React.Suspense fallback={<Skeleton className='h-112 w-full rounded-lg' />}>
-                <LazyMarkdownEditor
-                    value={field.state.value}
-                    onChange={field.handleChange}
-                    onBlur={field.handleBlur}
-                    invalid={!field.state.meta.isValid}
-                    disabled={disabled}
-                    placeholder={placeholder}
-                    minHeight={minHeight}
-                />
-            </React.Suspense>
-            <FieldError match={!field.state.meta.isValid}>{field.state.meta.errors[0]?.message}</FieldError>
+            <FieldLabel id={labelId} nativeLabel={false} render={<div />}>
+                {label}
+            </FieldLabel>
+            <ClientOnly fallback={fallback}>
+                <React.Suspense fallback={fallback}>
+                    <LazyRichTextEditor
+                        value={field.state.value}
+                        onValueChange={field.handleChange}
+                        onBlur={field.handleBlur}
+                        invalid={invalid}
+                        disabled={disabled}
+                        aria-labelledby={labelId}
+                        aria-describedby={invalid ? errorId : undefined}
+                        className={className}
+                        {...props}
+                    />
+                </React.Suspense>
+            </ClientOnly>
+            <FieldError id={errorId} match={invalid}>
+                {field.state.meta.errors[0]?.message}
+            </FieldError>
         </Field>
     );
 };
@@ -1083,7 +1100,7 @@ export {
     InputGroup,
     InputNumber,
     InputPassword,
-    MarkdownEditor,
     RadioCards,
+    RichTextEditor,
     Textarea,
 };
