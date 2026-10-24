@@ -10,7 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ComponentsRouteRouteImport } from './routes/components/route'
 import { Route as ApiSplatRouteImport } from './routes/api.$'
+import { Route as ComponentsIndexRouteImport } from './routes/components/index'
+import { Route as ComponentsDataTableRouteImport } from './routes/components/data-table'
+import { Route as ComponentsFileUploadRouteImport } from './routes/components/file-upload'
+import { Route as ComponentsFormRouteImport } from './routes/components/form'
+import { Route as ComponentsRichTextEditorRouteImport } from './routes/components/rich-text-editor'
 import { Route as ApiRpcSplatRouteImport } from './routes/api.rpc.$'
 
 const IndexRoute = IndexRouteImport.update({
@@ -18,11 +24,42 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComponentsRouteRoute = ComponentsRouteRouteImport.update({
+  id: '/components',
+  path: '/components',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiSplatRoute = ApiSplatRouteImport.update({
   id: '/api/$',
   path: '/api/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComponentsIndexRoute = ComponentsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
+const ComponentsDataTableRoute = ComponentsDataTableRouteImport.update({
+  id: '/data-table',
+  path: '/data-table',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
+const ComponentsFileUploadRoute = ComponentsFileUploadRouteImport.update({
+  id: '/file-upload',
+  path: '/file-upload',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
+const ComponentsFormRoute = ComponentsFormRouteImport.update({
+  id: '/form',
+  path: '/form',
+  getParentRoute: () => ComponentsRouteRoute,
+} as any)
+const ComponentsRichTextEditorRoute =
+  ComponentsRichTextEditorRouteImport.update({
+    id: '/rich-text-editor',
+    path: '/rich-text-editor',
+    getParentRoute: () => ComponentsRouteRoute,
+  } as any)
 const ApiRpcSplatRoute = ApiRpcSplatRouteImport.update({
   id: '/api/rpc/$',
   path: '/api/rpc/$',
@@ -31,30 +68,75 @@ const ApiRpcSplatRoute = ApiRpcSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/components': typeof ComponentsRouteRouteWithChildren
   '/api/$': typeof ApiSplatRoute
+  '/components/data-table': typeof ComponentsDataTableRoute
+  '/components/file-upload': typeof ComponentsFileUploadRoute
+  '/components/form': typeof ComponentsFormRoute
+  '/components/rich-text-editor': typeof ComponentsRichTextEditorRoute
+  '/components/': typeof ComponentsIndexRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/api/$': typeof ApiSplatRoute
+  '/components/data-table': typeof ComponentsDataTableRoute
+  '/components/file-upload': typeof ComponentsFileUploadRoute
+  '/components/form': typeof ComponentsFormRoute
+  '/components/rich-text-editor': typeof ComponentsRichTextEditorRoute
+  '/components': typeof ComponentsIndexRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/components': typeof ComponentsRouteRouteWithChildren
   '/api/$': typeof ApiSplatRoute
+  '/components/data-table': typeof ComponentsDataTableRoute
+  '/components/file-upload': typeof ComponentsFileUploadRoute
+  '/components/form': typeof ComponentsFormRoute
+  '/components/rich-text-editor': typeof ComponentsRichTextEditorRoute
+  '/components/': typeof ComponentsIndexRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/$' | '/api/rpc/$'
+  fullPaths:
+    | '/'
+    | '/components'
+    | '/api/$'
+    | '/components/data-table'
+    | '/components/file-upload'
+    | '/components/form'
+    | '/components/rich-text-editor'
+    | '/components/'
+    | '/api/rpc/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/$' | '/api/rpc/$'
-  id: '__root__' | '/' | '/api/$' | '/api/rpc/$'
+  to:
+    | '/'
+    | '/api/$'
+    | '/components/data-table'
+    | '/components/file-upload'
+    | '/components/form'
+    | '/components/rich-text-editor'
+    | '/components'
+    | '/api/rpc/$'
+  id:
+    | '__root__'
+    | '/'
+    | '/components'
+    | '/api/$'
+    | '/components/data-table'
+    | '/components/file-upload'
+    | '/components/form'
+    | '/components/rich-text-editor'
+    | '/components/'
+    | '/api/rpc/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ComponentsRouteRoute: typeof ComponentsRouteRouteWithChildren
   ApiSplatRoute: typeof ApiSplatRoute
   ApiRpcSplatRoute: typeof ApiRpcSplatRoute
 }
@@ -68,12 +150,54 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/components': {
+      id: '/components'
+      path: '/components'
+      fullPath: '/components'
+      preLoaderRoute: typeof ComponentsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/$': {
       id: '/api/$'
       path: '/api/$'
       fullPath: '/api/$'
       preLoaderRoute: typeof ApiSplatRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/components/': {
+      id: '/components/'
+      path: '/'
+      fullPath: '/components/'
+      preLoaderRoute: typeof ComponentsIndexRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
+    '/components/data-table': {
+      id: '/components/data-table'
+      path: '/data-table'
+      fullPath: '/components/data-table'
+      preLoaderRoute: typeof ComponentsDataTableRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
+    '/components/file-upload': {
+      id: '/components/file-upload'
+      path: '/file-upload'
+      fullPath: '/components/file-upload'
+      preLoaderRoute: typeof ComponentsFileUploadRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
+    '/components/form': {
+      id: '/components/form'
+      path: '/form'
+      fullPath: '/components/form'
+      preLoaderRoute: typeof ComponentsFormRouteImport
+      parentRoute: typeof ComponentsRouteRoute
+    }
+    '/components/rich-text-editor': {
+      id: '/components/rich-text-editor'
+      path: '/rich-text-editor'
+      fullPath: '/components/rich-text-editor'
+      preLoaderRoute: typeof ComponentsRichTextEditorRouteImport
+      parentRoute: typeof ComponentsRouteRoute
     }
     '/api/rpc/$': {
       id: '/api/rpc/$'
@@ -85,11 +209,41 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface ComponentsRouteRouteChildren {
+  ComponentsDataTableRoute: typeof ComponentsDataTableRoute
+  ComponentsFileUploadRoute: typeof ComponentsFileUploadRoute
+  ComponentsFormRoute: typeof ComponentsFormRoute
+  ComponentsRichTextEditorRoute: typeof ComponentsRichTextEditorRoute
+  ComponentsIndexRoute: typeof ComponentsIndexRoute
+}
+
+const ComponentsRouteRouteChildren: ComponentsRouteRouteChildren = {
+  ComponentsDataTableRoute: ComponentsDataTableRoute,
+  ComponentsFileUploadRoute: ComponentsFileUploadRoute,
+  ComponentsFormRoute: ComponentsFormRoute,
+  ComponentsRichTextEditorRoute: ComponentsRichTextEditorRoute,
+  ComponentsIndexRoute: ComponentsIndexRoute,
+}
+
+const ComponentsRouteRouteWithChildren = ComponentsRouteRoute._addFileChildren(
+  ComponentsRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ComponentsRouteRoute: ComponentsRouteRouteWithChildren,
   ApiSplatRoute: ApiSplatRoute,
   ApiRpcSplatRoute: ApiRpcSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
